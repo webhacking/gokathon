@@ -2,6 +2,7 @@ package gokathonit2.coalarm2;
 
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends Activity {
     private static final String TAG = "SignupActivity";
 
     EditText _nameText;

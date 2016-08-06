@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
 
@@ -63,21 +64,23 @@ public class ListViewBtnAdapter extends ArrayAdapter implements View.OnClickList
         textTextView.setText(listViewItem.getText());
 
         // button1 클릭 시 TextView(textView1)의 내용 변경.
-        Button button1 = (Button) convertView.findViewById(R.id.button1);
-        button1.setOnClickListener(new Button.OnClickListener(){
+        //Button button1 = (Button) convertView.findViewById(R.id.button1);
+        /*button1.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 textTextView.setText(Integer.toString(pos + 1) + "번 아이템 선");
             }
-        });
+        });*/
 
         // button2의 TAG에 position값 지정. Adapter를 click listener로 지정.
-        Button button2 = (Button) convertView.findViewById(R.id.button2);
-        button2.setTag(position);
-        button2.setOnClickListener(this);
-
+        //Button button2 = (Button) convertView.findViewById(R.id.button2);
+        //button2.setTag(position);
+        //button2.setOnClickListener(this);
+        ToggleButton toggleButton = (ToggleButton) convertView.findViewById(R.id.toggleButton);
+        toggleButton.setTag(position);
+        toggleButton.setOnClickListener(this);
         return convertView;
     }
-    // button2가 눌려졌을 때 실행되는 onClick함수.
+    // ToggleButton이 눌려졌을 때 실행되는 onClick함수.
     public void onClick(View v) {
         // ListBtnClickListener(MainActivity)의 onListBtnClick() 함수 호출.
         if (this.listBtnClickListener != null) {

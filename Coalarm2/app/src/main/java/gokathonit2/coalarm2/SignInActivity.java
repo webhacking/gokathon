@@ -40,10 +40,13 @@ public class SignInActivity extends Activity implements ListViewBtnAdapter.ListB
         setContentView(R.layout.activity_signin);
         ListViewBtnAdapter adapter;
         ArrayList<ListViewBtnItem> items = new ArrayList<ListViewBtnItem>();
+
+        /** plus icon setting **/
         ImageView plusIconView = (ImageView) findViewById(R.id.plusAlarm);
-        Drawable plusIconImage = ContextCompat.getDrawable(this, R.drawable.ic_watch_later_black_24dp);
+        Drawable plusIconImage = ContextCompat.getDrawable(this, R.drawable.plus_button);
         plusIconView.setImageDrawable(plusIconImage);
-// Sets the margins of the imageview, making it move to a specific location on the screen;
+
+        // Sets the margins of the imageview, making it move to a specific location on the screen;
 
         plusIconView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +90,7 @@ public class SignInActivity extends Activity implements ListViewBtnAdapter.ListB
         for (int i = 1; i < 5; i++) {
             item = new ListViewBtnItem();
             item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_watch_later_black_24dp));
-            item.setText(Integer.toString(i) + "번째 아이템입니다.");
+            item.setText("7:00 AM");
             list.add(item);
         }
 

@@ -14,7 +14,7 @@
 
     <ImageView android:src="@drawable/logo"
         android:layout_width="wrap_content"
-        android:layout_height="72dp"
+        android:layout_height="200dp"
         android:layout_marginTop = "100dp"
         android:layout_marginBottom="50dp"
         android:layout_gravity="center_horizontal" />
@@ -72,29 +72,23 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <!--<Button
-                style="?android:textAppearanceSmall"
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/sign_in_button"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />-->
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sign_in_button"
-                android:src="@drawable/signinbtn"/>
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:background="@color/colorAccent"
+                android:text="Login"/>
 
-            <Button
-                style="?android:textAppearanceSmall"
-                android:id="@+id/sign_up_button"
-                android:layout_width="match_parent"
+            <TextView android:id="@+id/sign_up_button"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_up"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal" />
+                android:layout_marginBottom="24dp"
+                android:text="No account yet? Create one"
+                android:gravity="center"
+                android:textSize="16dip"/>
 
         </LinearLayout>
    </ScrollView>
