@@ -61,7 +61,7 @@ public class ListViewBtnAdapter extends ArrayAdapter implements View.OnClickList
 
         // 아이템 내 각 위젯에 데이터 반영
         iconImageView.setImageDrawable(listViewItem.getIcon());
-        textTextView.setText(listViewItem.getText());
+        textTextView.setText(listViewItem.getTimeText());
 
         // button1 클릭 시 TextView(textView1)의 내용 변경.
         //Button button1 = (Button) convertView.findViewById(R.id.button1);

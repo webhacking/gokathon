@@ -4,9 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -21,8 +25,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,6 +42,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +55,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 
 //AppCompatActivity
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -66,20 +75,51 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mIdView;
+    private EditText mIdView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private String URL = "http://api.gokathon.hax0r.info/auth";
+    private String URL = "http://api.gokathon.hax0r.info/auth/login";
     private BackPressCloseHandler backPressCloseHandler;
+    public Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         /* set handler */
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+                if(msg.obj == "true"){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            Intent intentSignInActivity = new Intent(LoginActivity.this, SignInActivity.class);
+                            intentSignInActivity.putExtra("flag",0);
+                            startActivity(intentSignInActivity);
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("로그인 완료");
+                    alert.show();
 
+                }else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("로그인 실패");
+                    alert.show();
+                }
+            }
+        };
         // Set up the login form.
-        mIdView = (AutoCompleteTextView) findViewById(R.id.id);
-        populateAutoComplete();
+        mIdView = (EditText) findViewById(R.id.id);
+      //  populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -114,13 +154,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     }
 
-    private void populateAutoComplete() {
+    /*private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
         }
 
         getLoaderManager().initLoader(0, null, this);
-    }
+    }*/
 
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -147,7 +187,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     /**
      * Callback received when a permissions request has been completed.
      */
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_READ_CONTACTS) {
@@ -155,7 +195,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 populateAutoComplete();
             }
         }
-    }
+    }*/
 
 
     /**
@@ -171,10 +211,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         // Reset errors.
         mIdView.setError(null);
         mPasswordView.setError(null);
-
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Creating Account...");
+        progressDialog.show();
         // Store values at the time of the login attempt.
-        String id = mIdView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mIdView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -187,42 +231,51 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(id)) {
+        if (TextUtils.isEmpty(email)) {
             mIdView.setError(getString(R.string.error_field_required));
             focusView = mIdView;
             cancel = true;
-        } /*else if (!isEmailValid(email)) {
+        } else if (!isEmailValid(email)) {
             mIdView.setError(getString(R.string.error_invalid_email));
             focusView = mIdView;
             cancel = true;
-        }*/
+        }
 
-        /*if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
+        new Thread(){
+            public void run(){
+                try {
+                    HttpCom httpCom = new HttpCom(URL);
+                    String response = httpCom.sendLogInfoByHttp(email, password);
+                    JSONObject jobject = new JSONObject(response);
 
+                    String status = jobject.getString("status");
+                    Log.d("response", response);
+                    Message msg = new Message();
+                    msg.obj = status;
+                    LoginActivity.this.handler.sendMessage(msg);
 
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(id, password);
-            mAuthTask.execute((Void) null);
-        }*/
-        Intent intentSignInActivity = new Intent(LoginActivity.this, SignInActivity.class);
-        intentSignInActivity.putExtra("flag",0);
-        startActivity(intentSignInActivity);
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+
+                        // On complete call either onSignupSuccess or onSignupFailed
+                        // depending on success
+                        // onSignupSuccess();
+                        // onSignupFailed();
+                        progressDialog.dismiss();
+                    }
+                }, 3000);
+
 
     }
 
     private void attemptSignUp(){
-        new Thread(){
-            public void run(){
-                HttpCom httpCom = new HttpCom(URL);
-                httpCom.sendByHttp("Hi");
-            }
-        }.start();
+
 
 
         Intent intentSignUpActivity = new Intent(LoginActivity.this, SignupActivity.class);
@@ -274,7 +327,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    @Override
+    /*@Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
@@ -290,8 +343,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 // a primary email address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
-
-    @Override
+*/
+   /* @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         List<String> emails = new ArrayList<>();
         cursor.moveToFirst();
@@ -301,21 +354,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         addEmailsToAutoComplete(emails);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
-    }
+    }*/
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+   /* private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mIdView.setAdapter(adapter);
-    }
+    }*/
 
 
     private interface ProfileQuery {
@@ -348,8 +401,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             try {
                 // Simulate network access.
+                HttpCom httpCom = new HttpCom(URL);
+                String response = httpCom.sendLogInfoByHttp(mId, mPassword);
+                JSONObject jobject = new JSONObject(response);
+                Log.d("response",response);
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
+                return false;
+            } catch (JSONException e){
                 return false;
             }
 
