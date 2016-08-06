@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Coalarm</string>
+    <string name="registering_message_ready">InstanceID 토큰 가져오기</string>
+    <string name="registering_message_generating">InstanceID 토큰 생성중...</string>
+    <string name="registering_message_complete">완료!</string>
+    <!-- Strings related to login -->
+    <string name="prompt_id">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_up">Sign up</string>
+    <!-- <string name="action_sign_in_short">Sign in</string>!-->
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="connection_error">Connection error.</string>
+    <string name="no_doodle">No Google doodle today.</string>
+    <string name="title_activity_alarm_alert">AlarmAlertActivity</string>
+    <string name="title_activity_test_push">AlarmAlertActivity</string>
+</resources>

@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "983141346108",
+    "project_id": "firebase-coalarm"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983141346108:android:70f3f41995b215e5",
+        "android_client_info": {
+          "package_name": "gokathonit2.coalarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgyKFFILZSYAX7FrNcb2vd8kWDTse01xM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
