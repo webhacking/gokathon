@@ -15,7 +15,7 @@
     <ImageView android:src="@drawable/logo"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
-        android:layout_marginTop = "100dp"
+        android:layout_marginTop = "80dp"
         android:layout_marginBottom="50dp"
         android:layout_gravity="center_horizontal" />
     <!-- Login progress -->
@@ -30,7 +30,7 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:fillViewport="false">
 
         <LinearLayout
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -56,12 +56,13 @@ public class SignInActivity extends Activity implements ListViewBtnAdapter.ListB
         Intent intent = getIntent();
         int flag = intent.getExtras().getInt("flag");
         if(flag != 0) {
-            String timeText = intent.getExtras().getString("Time");
-            addItemToList(timeText);
+            int hour = intent.getExtras().getInt("hour");
+            int min = intent.getExtras().getInt("min");
+            addItemToList(hour, min);
 
-            String savedMsg = items.get(0).getText();
+            String savedMsg = items.get(0).getTimeText();
             for(int i = 1;i<items.size();i++){
-                savedMsg = savedMsg + "@" + items.get(i).getText();
+                savedMsg = savedMsg + "@" + items.get(i).getTimeText();
             }
             MyJSON.saveData(savedMsg);
             //add보다는 해당 리스트를 파일에 쓰는게 좋을 듯?
@@ -133,9 +134,12 @@ public class SignInActivity extends Activity implements ListViewBtnAdapter.ListB
         if(readMsg != null) {
             String[] texts = readMsg.split("@");
             for(int i = 0;i<texts.length;i++){
+                int hour = Integer.parseInt(texts[i].split(":")[0]);
+                int min = Integer.parseInt(texts[i].split(":")[1]);
                 item = new ListViewBtnItem();
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_watch_later_black_24dp));
-                item.setText(texts[i]);
+                item.setHour(hour);
+                item.setMin(min);
                 list.add(item);
             }
         }
@@ -145,15 +149,16 @@ public class SignInActivity extends Activity implements ListViewBtnAdapter.ListB
 
         return true;
     }
-    public boolean addItemToList(String timeText){
+    public boolean addItemToList(int hour, int min){
         ListViewBtnItem item = new ListViewBtnItem();
         item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_watch_later_black_24dp));
-        item.setText(timeText);
+        item.setHour(hour);
+        item.setMin(min);
         items.add(item);
         return true;
     }
     public void attempAddAlarm(){
-        Intent intent = new Intent(SignInActivity.this, AddAlarmActivity.class);
+        Intent intent = new Intent(SignInActivity.this, AlarmSettingActivity.class);
         startActivity(intent);
     }
     public void attempDeleteAlarm(){
