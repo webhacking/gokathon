@@ -1,4 +1,4 @@
-package gokathonit2.coalarm;
+package gokathonit2.coalarm2;
 
 import org.junit.Test;
 
