@@ -46,6 +46,7 @@ public class SignupActivity extends Activity {
                 finish();
             }
         });
+
     }
 
     public void signup() {

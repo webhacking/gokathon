@@ -19,10 +19,16 @@
         android:layout_marginLeft="280dp"
         android:layout_weight="1" />
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="130dp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteAlarm"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1" />
 
+      <ListView
+          android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="146dp"/>
 </RelativeLayout>

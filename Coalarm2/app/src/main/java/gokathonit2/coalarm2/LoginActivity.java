@@ -70,8 +70,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
     private String URL = "http://api.gokathon.hax0r.info/auth";
+    private BackPressCloseHandler backPressCloseHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +111,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     private void populateAutoComplete() {
@@ -210,6 +211,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask.execute((Void) null);
         }*/
         Intent intentSignInActivity = new Intent(LoginActivity.this, SignInActivity.class);
+        intentSignInActivity.putExtra("flag",0);
         startActivity(intentSignInActivity);
 
     }
@@ -381,6 +383,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = null;
             showProgress(false);
         }
+
+
     }
 }
 

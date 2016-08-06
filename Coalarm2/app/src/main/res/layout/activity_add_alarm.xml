@@ -9,4 +9,13 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Add Alarm"
         android:id="@+id/textView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/plusAlarm"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="280dp"
+        android:layout_weight="1" />
+
 </LinearLayout>
