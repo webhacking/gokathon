@@ -1,5 +1,6 @@
 package net.saltfactory.demo.gcm;
 
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -40,7 +41,13 @@ public class AlarmAlertActivity extends AppCompatActivity {
 
     private void DoSoundOff() {
         ringtone.stop();
-        this.finish();
+        //this.finish();
+        attemptMission();
+    }
+
+    private void attemptMission(){
+        Intent intentSignUpActivity = new Intent(getApplicationContext(), MissionActivity.class);
+        startActivity(intentSignUpActivity);
     }
 
 }
